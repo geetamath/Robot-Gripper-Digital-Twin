@@ -24,7 +24,7 @@ class DigitalTwinGripper:
         # Display 90° = Servo 90° (OPEN)
         
         print("="*60)
-        print("🤖 DIGITAL TWIN GRIPPER")
+        print(" DIGITAL TWIN GRIPPER")
         print("="*60)
         
         self.setup_gui()
@@ -53,9 +53,9 @@ class DigitalTwinGripper:
         """List all available COM ports"""
         ports = serial.tools.list_ports.comports()
         available = []
-        print("\n📡 Available COM Ports:")
+        print("\n Available COM Ports:")
         if not ports:
-            print("   ⚠️  No COM ports found!")
+            print("     No COM ports found!")
         for port in ports:
             print(f"   • {port.device} - {port.description}")
             available.append(port.device)
@@ -84,7 +84,7 @@ class DigitalTwinGripper:
         # If COM7 didn't work, try other ports with Arduino in the name
         for port in available_ports:
             if 'Arduino' in serial.tools.list_ports.comports()[available_ports.index(port)].description:
-                print(f"🔍 Found Arduino on {port}, trying to connect...")
+                print(f" Found Arduino on {port}, trying to connect...")
                 if self.connect_to_port(port):
                     return True
         
@@ -101,7 +101,7 @@ class DigitalTwinGripper:
     
     def connect_to_port(self, port_name):
         """Try to connect to a specific port"""
-        print(f"🔌 Attempting connection to {port_name}...")
+        print(f" Attempting connection to {port_name}...")
         try:
             # Close existing connection if any
             if self.serial_port and self.serial_port.is_open:
@@ -118,23 +118,23 @@ class DigitalTwinGripper:
             self.port_name = port_name
             self.status_label.config(text=f"● Connected: {port_name}", fg="#00ff00")
             self.root.title(f"Digital Twin Gripper - {port_name}")
-            print(f"✅ Successfully connected to {port_name}!\n")
+            print(f" Successfully connected to {port_name}!\n")
             return True
             
         except serial.SerialException as e:
             if "PermissionError" in str(e) or "Access is denied" in str(e):
-                print(f"❌ {port_name}: Port is in use or access denied")
+                print(f" {port_name}: Port is in use or access denied")
             else:
-                print(f"❌ {port_name}: {e}")
+                print(f" {port_name}: {e}")
             return False
         except Exception as e:
-            print(f"❌ {port_name}: Unexpected error - {e}")
+            print(f" {port_name}: Unexpected error - {e}")
             return False
     
     def show_troubleshooting(self):
         """Show troubleshooting tips"""
         print("\n" + "="*60)
-        print("💡 TROUBLESHOOTING TIPS:")
+        print(" TROUBLESHOOTING TIPS:")
         print("="*60)
         print("1. CLOSE Arduino IDE (especially Serial Monitor)")
         print("2. Close any other programs using the Arduino")
@@ -153,7 +153,7 @@ class DigitalTwinGripper:
             "• Check the console for more details")
     
     def setup_gui(self):
-        Label(self.root, text="🤖 DIGITAL TWIN GRIPPER", 
+        Label(self.root, text=" DIGITAL TWIN GRIPPER", 
               font=("Arial", 18, "bold"), bg="#2b2b2b", fg="#00ff00").pack(pady=15)
         
         control_frame = Frame(self.root, bg="#3a3a3a", padx=20, pady=20)
@@ -164,7 +164,7 @@ class DigitalTwinGripper:
         self.status_label.pack(pady=5)
         
         # Reconnect button
-        Button(control_frame, text="🔄 Reconnect", 
+        Button(control_frame, text=" Reconnect", 
                command=self.reconnect,
                bg="#2196F3", fg="white", font=("Arial", 9),
                padx=10, pady=5).pack(pady=5)
@@ -182,17 +182,17 @@ class DigitalTwinGripper:
         button_frame = Frame(control_frame, bg="#3a3a3a")
         button_frame.pack(pady=10)
         
-        Button(button_frame, text="🟢 OPEN (90°)", 
+        Button(button_frame, text=" OPEN (90°)", 
                command=lambda: self.set_position(90),
                bg="#4CAF50", fg="white", font=("Arial", 11, "bold"),
                padx=20, pady=12).pack(side=LEFT, padx=5)
         
-        Button(button_frame, text="🟡 HALF (45°)", 
+        Button(button_frame, text=" HALF (45°)", 
                command=lambda: self.set_position(45),
                bg="#FFC107", fg="white", font=("Arial", 11, "bold"),
                padx=20, pady=12).pack(side=LEFT, padx=5)
         
-        Button(button_frame, text="🔴 CLOSE (0°)", 
+        Button(button_frame, text=" CLOSE (0°)", 
                command=lambda: self.set_position(0),
                bg="#f44336", fg="white", font=("Arial", 11, "bold"),
                padx=20, pady=12).pack(side=LEFT, padx=5)
@@ -209,7 +209,7 @@ class DigitalTwinGripper:
     
     def reconnect(self):
         """Attempt to reconnect to Arduino"""
-        self.status_label.config(text="● Reconnecting...", fg="#FFC107")
+        self.status_label.config(text=" Reconnecting...", fg="#FFC107")
         self.root.update()
         self.auto_detect_and_connect()
     
@@ -220,14 +220,14 @@ class DigitalTwinGripper:
                 servo_angle = self.display_to_servo(display_position)
                 command = f"GRIP:{servo_angle}\n"
                 self.serial_port.write(command.encode())
-                print(f"📤 Sent: GRIP:{servo_angle} (Display: {display_position}°)")
+                print(f" Sent: GRIP:{servo_angle} (Display: {display_position}°)")
                 return True
             except Exception as e:
-                print(f"❌ Send error: {e}")
+                print(f" Send error: {e}")
                 self.status_label.config(text="● Connection Lost", fg="#ff4444")
                 return False
         else:
-            print("⚠️  Not connected to Arduino")
+            print("  Not connected to Arduino")
             return False
     
     def on_slider_change(self, value):
@@ -359,7 +359,7 @@ class DigitalTwinGripper:
                 try:
                     if self.serial_port.in_waiting:
                         response = self.serial_port.readline().decode().strip()
-                        print(f"📥 Received: {response}")
+                        print(f" Received: {response}")
                         
                         # Update GUI when receiving position updates from Arduino
                         if response.startswith("POS:"):
@@ -377,7 +377,7 @@ class DigitalTwinGripper:
         self.running = False
         if self.serial_port and self.serial_port.is_open:
             self.serial_port.close()
-            print("🔌 Disconnected from Arduino")
+            print(" Disconnected from Arduino")
 
 def main():
     root = Tk()
@@ -386,4 +386,5 @@ def main():
     root.mainloop()
 
 if __name__ == "__main__":
+
     main()
