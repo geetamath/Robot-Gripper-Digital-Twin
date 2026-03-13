@@ -10,7 +10,7 @@ The goal of this project is to demonstrate how digital twin technology can be ap
 ## Objectives
 
 * Develop a **virtual model of a robotic gripper**
-* Enable **physical-to-digital data synchronization**
+* Enable **Bi-Directional data synchronization**
 * Simulate robotic gripper motion in a digital environment
 * Improve monitoring and analysis of robotic operations
 * Demonstrate the concept of **AI-enabled Digital Twin systems**
@@ -43,7 +43,6 @@ The system consists of the following components:
 * Arduino / Microcontroller
 * Sensors (e.g., Ultrasonic Sensor HC-SR04)
 * Simulation Tools
-* Machine Learning concepts for predictive analysis
 
 ## Project Workflow
 
