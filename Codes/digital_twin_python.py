@@ -43,7 +43,7 @@ class DigitalTwinGripper:
     def list_available_ports(self):
         ports = serial.tools.list_ports.comports()
         available = []
-        print("\n📡 Available COM Ports:")
+        print("\n Available COM Ports:")
         if not ports:
             print(" No COM ports found!")
         for port in ports:
@@ -73,7 +73,7 @@ class DigitalTwinGripper:
         return False
     
     def connect_to_port(self, port_name):
-        print(f"🔌 Attempting connection to {port_name}...")
+        print(f" Attempting connection to {port_name}...")
         try:
             if self.serial_port and self.serial_port.is_open:
                 self.serial_port.close()
@@ -299,3 +299,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
